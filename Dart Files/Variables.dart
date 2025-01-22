@@ -105,6 +105,30 @@ void lateVariable() {
   print(Temperature);
 }
 
+void finalAndconstVariable() {
+  /**
+   * If you never intend to change a variable, use final or const, 
+   * either instead of var or in addition to a type. A final variable 
+   * can be set only once; a const variable is a compile-time 
+   * constant. (Const variables are implicitly final.)
+   */
+
+  // final variable can be runtime constant.
+  // for example you get some value from API and you set it to the variable 
+  //then its done its basically one time runtime or compile time assignment of value
+
+  final name = 'Bob'; // Without a type annotation
+  final String nickname = 'Bobby';
+  // nickname = "Mayuresh"; // This will Give error
+
+  // const is simply compile time constant we have to explicitely set value of 
+  // the variable defined with constant. The const keyword isn't just for declaring 
+  // constant variables. You can also use it to create constant values, as well 
+  // as to declare constructors that create constant values. Any variable can have 
+  // a constant value.
+
+}
+
 void main() {
   // Following are the Examples of the Variables that can be used in Dart/Flutter
 
