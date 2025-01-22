@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 void list() {
   print("");
   print("List Operations");
@@ -43,7 +45,6 @@ void set() {
   print(setprac);
   print(setprac.elementAt(2));
 
-
   // add and addAll
   var halogens = {'fluorine', 'chlorine', 'bromine', 'iodine', 'astatine'};
   Set<String> element = {}; // This creates an empty set
@@ -51,7 +52,6 @@ void set() {
   print(element);
   element.addAll(halogens); // Add the whole list of halogens into element set
   print(element);
-
 
   // Contains in Set or Not
   if (element.contains('Fluorine')) {
@@ -62,19 +62,70 @@ void set() {
 }
 
 void map() {
+  /**
+   * In general, a map is an object that associates keys and values. 
+   * Both keys and values can be any type of object. Each key occurs only once, 
+   * but you can use the same value multiple times.
+   */
   print("");
   print("Map Operations");
+
+  // This is one way to create map
   Map<String, dynamic> arr = {'1': 5, '2': 10, '3': 15};
 
-  print(arr['2']);
+  // Or you can create by just assigning the Object in Key Value Pair like below
+  var gifts = {
+    // Key:    Value
+    'first': 'partridge',
+    'second': 'turtledoves',
+    'fifth': 'golden rings'
+  };
 
-  arr['2'] = 30;
+  // How to Access
+  print(gifts["first"]); // Access by specifying the key
 
-  print(arr['2']);
+  gifts.update('first', (value) => "Mayuresh");
+  print("Updated Value : ${gifts["first"]}");
+
+
 }
 
 void hashMap() {
-  // HashMap<String, int> str = {"1": 1}; // Check How to Initialize the values in HashMap
+  /**
+   * In Dart, a HashMap is a collection of key-value pairs,
+   * similar to a regular Map, but with a specific internal implementation 
+   * that uses a hash table to provide efficient access and retrieval. A HashMap 
+   * in Dart is part of the dart:collection library and is often used when you 
+   * need fast lookups, inserts, and deletions based on a hash-based key.
+   */
+  print("");
+  print("Map Operations");
+  var gifts = HashMap<String, String>();
+
+  // Adding key-value pairs
+  gifts['first'] = 'partridge';
+  gifts['second'] = 'turtledoves';
+  gifts['fifth'] = 'golden rings';
+
+  // Accessing values by key
+  print(gifts['first']); // Output: partridge
+
+  // Checking if a key exists
+  print(gifts.containsKey('second')); // Output: true
+  print(gifts.containsKey('fourth')); // Output: false
+
+  // Updating a value
+  gifts['first'] = 'Mayuresh';
+  print(gifts['first']); // Output: Mayuresh
+
+  // Removing a key-value pair
+  gifts.remove('second');
+  print(gifts); // Output: {first: Mayuresh, fifth: golden rings}
+
+  // Iterating over the HashMap
+  gifts.forEach((key, value) {
+    print('$key: $value');
+  });
 }
 
 void main() {
