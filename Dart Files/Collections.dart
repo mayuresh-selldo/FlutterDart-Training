@@ -86,8 +86,6 @@ void map() {
 
   gifts.update('first', (value) => "Mayuresh");
   print("Updated Value : ${gifts["first"]}");
-
-
 }
 
 void hashMap() {
@@ -132,4 +130,5 @@ void main() {
   list();
   set();
   map();
+  hashMap();
 }
