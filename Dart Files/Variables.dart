@@ -91,12 +91,18 @@ void defaultValue() {
 void lateVariable() {
   late String description; // Didnt Understand late keyword
 
-  void run() {
+  void giveDesc() {
     description = 'Feijoada!';
     print(description);
   }
 
-  run();
+  String readTemp() {
+    return "10 Degrees";
+  }
+
+  giveDesc();
+  late String Temperature = readTemp();
+  print(Temperature);
 }
 
 void main() {
