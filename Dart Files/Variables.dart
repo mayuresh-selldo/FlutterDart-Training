@@ -114,19 +114,29 @@ void finalAndconstVariable() {
    */
 
   // final variable can be runtime constant.
-  // for example you get some value from API and you set it to the variable 
-  //then its done its basically one time runtime or compile time assignment of value
+  // for example you get some value from API and you set it to the variable
+  // then its done its basically one time runtime or compile time assignment of value
 
   final name = 'Bob'; // Without a type annotation
   final String nickname = 'Bobby';
   // nickname = "Mayuresh"; // This will Give error
 
-  // const is simply compile time constant we have to explicitely set value of 
-  // the variable defined with constant. The const keyword isn't just for declaring 
-  // constant variables. You can also use it to create constant values, as well 
-  // as to declare constructors that create constant values. Any variable can have 
+  final arr = [1, 2, 3];
+  arr.add(30);
+
+  print(arr[0]);
+  arr[0] = 40;
+  print(arr[0]);
+
+  // arr = [20, 30, 40];// This will give an error
+
+  // const is simply compile time constant we have to explicitely set value of
+  // the variable defined with constant. The const keyword isn't just for declaring
+  // constant variables. You can also use it to create constant values, as well
+  // as to declare constructors that create constant values. Any variable can have
   // a constant value.
 
+  const age = 10;
 }
 
 void main() {
@@ -137,4 +147,5 @@ void main() {
   checkNullability();
   defaultValue();
   lateVariable();
+  finalAndconstVariable();
 }
