@@ -97,7 +97,7 @@ void hashMap() {
    * need fast lookups, inserts, and deletions based on a hash-based key.
    */
   print("");
-  print("Map Operations");
+  print("HashMap Operations");
   var gifts = HashMap<String, String>();
 
   // Adding key-value pairs
