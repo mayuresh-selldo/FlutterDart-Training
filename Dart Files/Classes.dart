@@ -31,12 +31,35 @@ class Student {
   }
 }
 
+class Parent {
+  String? name;
+  int? age;
+  Parent(this.name, this.age);
+  void printParentInfo() {
+    print("Parent Name is ${name} and Age is ${age}");
+  }
+}
+
+class Child extends Parent {
+  String? childName;
+  int? childAge;
+
+  Child(String? parentName, int? parentAge, this.childName, this.childAge)
+      : super(parentName, parentAge);
+
+  void printChildInfo() {
+    print("Child Name is ${childName} and Age is ${childAge}");
+    super.printParentInfo();
+  }
+}
+
 void main() {
   var student = Student();
-
   student.stud_name = "Mayuresh";
   student.stud_age = 4;
-
   print("Student Name: ${student.stud_name}");
   print("Student Age: ${student.stud_age}");
+
+  var ch = Child("Nitin", 45, "Mayuresh", 21);
+  ch.printChildInfo();
 }
