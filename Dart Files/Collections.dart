@@ -98,12 +98,22 @@ void hashMap() {
    */
   print("");
   print("HashMap Operations");
-  var gifts = HashMap<String, String>();
+  var gifts = HashMap<dynamic, String>();
 
   // Adding key-value pairs
   gifts['first'] = 'partridge';
   gifts['second'] = 'turtledoves';
   gifts['fifth'] = 'golden rings';
+  gifts['null'] = "null";
+  gifts['null'] = "null";
+  print(gifts.length);
+
+  var str = "1234a";
+  
+  
+  // var x = int.parse(str);
+  print(1 is int);
+  // print(x);
 
   // Accessing values by key
   print(gifts['first']); // Output: partridge
@@ -124,6 +134,12 @@ void hashMap() {
   gifts.forEach((key, value) {
     print('$key: $value');
   });
+
+  var sets = HashSet<dynamic>();
+  sets.add(Null);
+  sets.add("Null");
+
+  print(sets);
 }
 
 void main() {
