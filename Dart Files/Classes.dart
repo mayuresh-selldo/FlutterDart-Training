@@ -43,13 +43,15 @@ class Parent {
 class Child extends Parent {
   String? childName;
   int? childAge;
-
+  final DateTime start;
+  
   Child(String? parentName, int? parentAge, this.childName, this.childAge)
-      : super(parentName, parentAge);
+      : start = DateTime.now(), super(parentName, parentAge);
 
   void printChildInfo() {
     print("Child Name is ${childName} and Age is ${childAge}");
     super.printParentInfo();
+    print("This class is created at $start");
   }
 }
 
