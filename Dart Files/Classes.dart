@@ -20,8 +20,9 @@ class Student {
   // Setter for age with a condition to check age
   set stud_age(int? age) {
     try {
-      if (age! <= 5) {
-        throw ArgumentError("Age should be greater than 5");
+      if (age! <= 18) {
+        String error() => ' your age is less than 18 :(';
+        throw error();
       } else {
         this.age = age;
       }
@@ -44,14 +45,30 @@ class Child extends Parent {
   String? childName;
   int? childAge;
   final DateTime start;
-  
+
   Child(String? parentName, int? parentAge, this.childName, this.childAge)
-      : start = DateTime.now(), super(parentName, parentAge);
+      : start = DateTime.now(),
+        super(parentName, parentAge);
 
   void printChildInfo() {
     print("Child Name is ${childName} and Age is ${childAge}");
     super.printParentInfo();
     print("This class is created at $start");
+  }
+
+  // Method overloading not allowed
+  // int? printChildInfo(int? age) {
+  //   print("Hello Overloading");
+  //   return age;
+  // }
+
+  // Method Overriding Allowed
+  void printParentInfo() {
+    super.name = "Harsh";
+    super.age = 10;
+    print("This is Child Redeclaration");
+
+    super.printParentInfo();
   }
 }
 
@@ -64,4 +81,5 @@ void main() {
 
   var ch = Child("Nitin", 45, "Mayuresh", 21);
   ch.printChildInfo();
+  ch.printParentInfo();
 }
