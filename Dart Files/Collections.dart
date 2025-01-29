@@ -109,8 +109,7 @@ void hashMap() {
   print(gifts.length);
 
   var str = "1234a";
-  
-  
+
   // var x = int.parse(str);
   print(1 is int);
   // print(x);
@@ -142,9 +141,21 @@ void hashMap() {
   print(sets);
 }
 
+void Queues() {
+  Queue<String>? pq = new Queue<String>();
+
+  pq.addFirst("First Value in Queue");
+  pq.addFirst("Second Value in Queue");
+  pq.addLast("Third Value in Queue");
+  pq.addLast("Fourth Value in Queue");
+
+  print(pq);
+}
+
 void main() {
   list();
   set();
   map();
   hashMap();
+  Queues();
 }
