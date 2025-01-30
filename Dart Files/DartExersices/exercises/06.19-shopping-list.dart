@@ -136,6 +136,19 @@
 
 import 'dart:io';
 
+import '../../Loops.dart';
+
+class ShoppingModelClass {
+  String name = "";
+  int itemCount = 0;
+  int singleItemPrice = 0;
+
+  ShoppingModelClass(
+      {required this.name,
+      required this.itemCount,
+      required this.singleItemPrice});
+}
+
 void shoppingListGame() {
   var StockInShop = {
     'bananas': 10,
@@ -145,6 +158,18 @@ void shoppingListGame() {
       'rice': '102kg',
     }
   };
+
+  List<ShoppingModelClass> StockInWalmart = [];
+  StockInWalmart.addAll([
+    ShoppingModelClass(name: "Bananas", itemCount: 10, singleItemPrice: 20),
+    ShoppingModelClass(name: "Apples", itemCount: 20, singleItemPrice: 30),
+    ShoppingModelClass(name: "Pasta", itemCount: 10, singleItemPrice: 300),
+    ShoppingModelClass(name: "Rice", itemCount: 100, singleItemPrice: 50)
+  ]);
+
+  StockInWalmart.map((element) => print(
+          "{'Name : '${element.name} itemCount : ${element.itemCount} itemPrice : ${element.singleItemPrice}}"))
+      .toList();
 
   var pricesOfSingleGood = <String, int>{
     'bananas': 5,
@@ -203,7 +228,7 @@ void shoppingListGame() {
   void playGame() {
     StockInShop.forEach((key, availableQuantity) {
       print("Current Stock we have in shop is : ${StockInShop}");
-      if (key == "bananas") {
+      if (key == "Bananas") {
         print(
             "How Much Bananas Do you want to buy? We have $availableQuantity available");
 
@@ -275,9 +300,9 @@ void shoppingListGame() {
     gameOver = true;
   }
 
-  do {
-    playGame();
-  } while (!gameOver);
+  // do {
+  //   playGame();
+  // } while (!gameOver);
 }
 
 void main() {

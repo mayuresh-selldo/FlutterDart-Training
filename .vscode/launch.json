@@ -1,0 +1,44 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "lessons",
+            "cwd": "Dart Files/DartExersices/lessons",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "classes_advanced",
+            "cwd": "Dart Files/DartExersices/lessons/classes_advanced",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "errors_exceptions",
+            "cwd": "Dart Files/DartExersices/lessons/errors_exceptions",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "mixins_extensions",
+            "cwd": "Dart Files/DartExersices/lessons/mixins_extensions",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "simple_ecommerce",
+            "cwd": "Dart Files/DartExersices/projects/simple_ecommerce",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "weather_app",
+            "cwd": "Dart Files/DartExersices/projects/weather_app",
+            "request": "launch",
+            "type": "dart"
+        }
+    ]
+}
