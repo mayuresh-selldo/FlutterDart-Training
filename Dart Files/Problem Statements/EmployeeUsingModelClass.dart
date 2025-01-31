@@ -37,7 +37,7 @@ class Address {
 class EmployeeOperations {
   List<EmployeeModelClass> employee = [];
 
-  void addEmployee() {
+  void manualAddEmployee() {
     employee.addAll([
       EmployeeModelClass(
           name: "Mayuresh",
@@ -98,6 +98,132 @@ class EmployeeOperations {
     ]);
   }
 
+  void dynamicAddEmployee(List<EmployeeModelClass> employeeList) {
+    Map<int, int> initialPhoneNumbers = {};
+    Map<int, String> initialEmails = {};
+    Map<String, Address> initialAddresses = {};
+
+    EmployeeModelClass newEmployee = EmployeeModelClass(
+        name: '',
+        age: 0,
+        department: '',
+        phoneNumbers: initialPhoneNumbers,
+        emailAddresses: initialEmails,
+        Addresses: initialAddresses);
+
+    // Adding Name of the Employee
+    print("Enter the Name : ");
+    String name = stdin.readLineSync()!;
+    newEmployee.name = name;
+
+    // Adding Age of the Employee
+    print("Enter the Age of the Employee : ");
+    int age = int.parse(stdin.readLineSync()!);
+    newEmployee.age = age;
+
+    // Adding Department of the Employee
+    print("Enter the Department of the Employee: ");
+    String dept = stdin.readLineSync()!;
+    newEmployee.department = dept;
+
+    // Adding Phone Numbers
+    print("How Many Phone Numbers Do You Want to Add?");
+    int noOfPhoneNumbers = int.parse(stdin.readLineSync()!);
+    Map<int, int> phNo = {};
+
+    for (int i = 0; i < noOfPhoneNumbers; i++) {
+      print("Enter ${i + 1} Phone Number : ");
+      int currPhone = int.parse(stdin.readLineSync()!);
+      if (currPhone.toString().length < 10) {
+        print("Enter Valid Phone Number");
+        i--; // Retry for this index
+      } else {
+        phNo[i + 1] = currPhone;
+      }
+    }
+    print("Your Phone Numbers are : $phNo");
+    newEmployee.phoneNumbers = phNo;
+
+    // Adding Emails
+    print("How Many Emails Do You Want to Add?");
+    int noOfEmails = int.parse(stdin.readLineSync()!);
+    Map<int, String> emailList = {};
+
+    for (int i = 0; i < noOfEmails; i++) {
+      print("Enter ${i + 1} Email : ");
+      String currMail = stdin.readLineSync()!;
+      emailList[i + 1] = currMail;
+    }
+    print("Your Emails are : $emailList");
+    newEmployee.emailAddresses = emailList;
+
+    // Adding Addresses
+    Map<String, Address> addresses = {};
+
+    print("Do you want to add Residential Address? (yes/no)");
+    String addResidential = stdin.readLineSync()!.toLowerCase();
+
+    if (addResidential == "yes") {
+      print("\nEnter Residential Address Details:");
+      print("Enter City: ");
+      String city = stdin.readLineSync()!;
+      print("Enter Lane/Street: ");
+      String lane = stdin.readLineSync()!;
+      print("Enter State: ");
+      String state = stdin.readLineSync()!;
+      print("Enter Pincode: ");
+      int pincode = int.parse(stdin.readLineSync()!);
+      print("Enter Country: ");
+      String country = stdin.readLineSync()!;
+
+      addresses["Residential Address"] = Address(
+          city: city,
+          lane1: lane,
+          state: state,
+          pincode: pincode,
+          country: country);
+    }
+
+    print("\nDo you want to add Permanent Address? (yes/no)");
+    String addPermanent = stdin.readLineSync()!.toLowerCase();
+
+    if (addPermanent == "yes") {
+      print("\nEnter Permanent Address Details:");
+      print("Enter City: ");
+      String city = stdin.readLineSync()!;
+      print("Enter Lane/Street: ");
+      String lane = stdin.readLineSync()!;
+      print("Enter State: ");
+      String state = stdin.readLineSync()!;
+      print("Enter Pincode: ");
+      int pincode = int.parse(stdin.readLineSync()!);
+      print("Enter Country: ");
+      String country = stdin.readLineSync()!;
+
+      addresses["Permanent Address"] = Address(
+          city: city,
+          lane1: lane,
+          state: state,
+          pincode: pincode,
+          country: country);
+    }
+
+    if (addresses.isEmpty) {
+      print("Warning: No addresses added for the employee.");
+    } else {
+      print("\nAdded Addresses:");
+      addresses.forEach((type, address) {
+        print(
+            "$type: ${address.city}, ${address.lane1}, ${address.state} - ${address.pincode}, ${address.country}");
+      });
+    }
+
+    newEmployee.Addresses = addresses;
+
+    employeeList.add(newEmployee);
+    print("\nEmployee added successfully!");
+  }
+
   void showEmployee(List<EmployeeModelClass> employeeList, String name) {
     var matchingEmployees = employeeList
         .where((e) => e.name.toLowerCase().contains(name.toLowerCase()))
@@ -130,16 +256,70 @@ class EmployeeOperations {
       print("No employee found with the given name.");
     }
   }
+
+  void showEmployees(List<EmployeeModelClass> employeeList) {
+    if (employeeList.isNotEmpty) {
+      print("");
+      print("---------------------Total Employee List---------------------");
+      for (var emp in employeeList) {
+        print("Name: ${emp.name}");
+        print("Age: ${emp.age}");
+        print("Department: ${emp.department}");
+
+        print("Phone Numbers:");
+        emp.phoneNumbers.forEach((key, value) {
+          print("$key: $value");
+        });
+
+        print("Email Addresses:");
+        emp.emailAddresses.forEach((key, value) {
+          print("$key: $value");
+        });
+
+        print("Addresses:");
+        emp.Addresses.forEach((key, address) {
+          print(
+              "$key: ${address.city}, ${address.lane1}, ${address.state} - ${address.pincode}, ${address.country}");
+        });
+        print("");
+        print(
+            "------------------------------------------------------------------");
+        print("");
+      }
+    } else {
+      print("No Employees Found");
+    }
+  }
 }
 
 void main() {
   var operations = EmployeeOperations();
-  operations.addEmployee();
+  operations.manualAddEmployee();
 
-  print("Enter Name You Want to Find : ");
-  String? name = stdin.readLineSync();
+  print(
+      "Which Operation Do You Want to Perform? \n1.Create Employee (Type : 'create') \n2.Show Employee (Type : 'show') \n3.Show All Employees (Type : 'show all')");
 
-  operations.showEmployee(operations.employee, name!);
+  String input = stdin.readLineSync()!;
+  switch (input) {
+    case "create":
+      operations.dynamicAddEmployee(operations.employee);
+      operations.showEmployees(operations.employee);
+      break;
+
+    case "show":
+      print("Enter Name You Want to Find : ");
+      String? name = stdin.readLineSync();
+      operations.showEmployee(operations.employee, name!);
+      break;
+
+    case "show all":
+      operations.showEmployees(operations.employee);
+      break;
+
+    default:
+      break;
+  }
+
   // operations.showEmployee(operations.employee, "yuresh");
   // operations.showEmployee(operations.employee, "Harsh");
 }
