@@ -426,11 +426,13 @@ void main() {
   var operations = EmployeeOperations();
   operations.manualAddEmployee();
 
-  print("""Which Operation Do You Want to Perform? 
-      \n1.Create Employee (Type : 'create') 
-      \n2.Show Employee (Type : 'show') 
-      \n3.Show All Employees (Type : 'show all')  
-      \n4.Update Employee (Type : 'update')""");
+  print("""
+  Which Operation Do You Want to Perform?\n 
+  1.Create Employee (Type : 'create') 
+  2.Show Employee (Type : 'show') 
+  3.Show All Employees (Type : 'show all')  
+  4.Update Employee (Type : 'update')
+  """);
 
   String input = stdin.readLineSync()!;
   switch (input) {
