@@ -288,13 +288,13 @@ class EmployeeOperations {
 
           emp.name = newName;
           print("Name Updated SuccessFully");
-          
+
           break;
 
         case "age":
           print("Enter Updated Age : ");
           int newAge = int.parse(stdin.readLineSync()!);
-          
+
           emp.age = newAge;
           print("Age Updated SuccessFully");
 
@@ -334,7 +334,6 @@ class EmployeeOperations {
 
             currPhoneNumber[0] = newPhoneNumber;
             print("Phone Number Updated SuccessFully");
-
           } else {
             print("No Phone Number Found");
           }
@@ -427,8 +426,11 @@ void main() {
   var operations = EmployeeOperations();
   operations.manualAddEmployee();
 
-  print(
-      "Which Operation Do You Want to Perform? \n1.Create Employee (Type : 'create') \n2.Show Employee (Type : 'show')  \n4.Update Employee (Type : 'update')");
+  print("""Which Operation Do You Want to Perform? 
+      \n1.Create Employee (Type : 'create') 
+      \n2.Show Employee (Type : 'show') 
+      \n3.Show All Employees (Type : 'show all')  
+      \n4.Update Employee (Type : 'update')""");
 
   String input = stdin.readLineSync()!;
   switch (input) {
