@@ -224,6 +224,137 @@ class EmployeeOperations {
     print("\nEmployee added successfully!");
   }
 
+  void updateEmployee(List<EmployeeModelClass> employeeList) {
+    print("Enter the Name of the Employee you want to update : ");
+    String name = stdin.readLineSync()!;
+
+    var matchingEmployees = employeeList
+        .where((e) => e.name.toLowerCase().contains(name.toLowerCase()))
+        .toList();
+
+    if (matchingEmployees.length > 1) {
+      for (var emp in matchingEmployees) {
+        print("Name: ${emp.name}");
+        print("Age: ${emp.age}");
+        print("Department: ${emp.department}");
+
+        print("Phone Numbers:");
+        emp.phoneNumbers.forEach((key, value) {
+          print("$key: $value");
+        });
+
+        print("Email Addresses:");
+        emp.emailAddresses.forEach((key, value) {
+          print("$key: $value");
+        });
+
+        print("Addresses:");
+        emp.Addresses.forEach((key, address) {
+          print(
+              "$key: ${address.city}, ${address.lane1}, ${address.state} - ${address.pincode}, ${address.country}");
+        });
+        print("");
+      }
+      print("Out of These Employees type correct name");
+      updateEmployee(employeeList);
+    } else if (matchingEmployees.length == 1) {
+      var emp = matchingEmployees[0];
+      print("Name: ${emp.name}");
+      print("Age: ${emp.age}");
+      print("Department: ${emp.department}");
+
+      print("Phone Numbers:");
+      emp.phoneNumbers.forEach((key, value) {
+        print("$key: $value");
+      });
+
+      print("Email Addresses:");
+      emp.emailAddresses.forEach((key, value) {
+        print("$key: $value");
+      });
+
+      print("Addresses:");
+      emp.Addresses.forEach((key, address) {
+        print(
+            "$key: ${address.city}, ${address.lane1}, ${address.state} - ${address.pincode}, ${address.country}");
+      });
+      print("");
+      print("What Do you want to Update");
+      String input = stdin.readLineSync()!;
+      switch (input) {
+        case "name":
+          print("Enter Updated Name : ");
+          String newName = stdin.readLineSync()!;
+
+          emp.name = newName;
+          print("Name Updated SuccessFully");
+          
+          break;
+
+        case "age":
+          print("Enter Updated Age : ");
+          int newAge = int.parse(stdin.readLineSync()!);
+          
+          emp.age = newAge;
+          print("Age Updated SuccessFully");
+
+          break;
+
+        case "department":
+          print("Enter Updated Department : ");
+          String newDept = stdin.readLineSync()!;
+
+          emp.department = newDept;
+          print("Department Updated SuccessFully");
+
+          break;
+
+        case "phoneNumbers":
+          var phoneNumberList = emp.phoneNumbers;
+
+          if (phoneNumberList.length > 1) {
+            print(
+                "Out of Below Phone Number Which Do you want to change. Enter Number: ");
+            phoneNumberList.forEach((key, value) {
+              print("$key : $value");
+            });
+
+            int key = int.parse(stdin.readLineSync()!);
+
+            print("Enter Updated Number : ");
+            int newPhoneNumber = int.parse(stdin.readLineSync()!);
+
+            phoneNumberList[key] = newPhoneNumber;
+            print("Phone Number Updated SuccessFully");
+          } else if (phoneNumberList.length == 0) {
+            Map<int, int> currPhoneNumber = phoneNumberList[0] as Map<int, int>;
+
+            print("Enter Updated Phone Number : ");
+            int newPhoneNumber = int.parse(stdin.readLineSync()!);
+
+            currPhoneNumber[0] = newPhoneNumber;
+            print("Phone Number Updated SuccessFully");
+
+          } else {
+            print("No Phone Number Found");
+          }
+
+          break;
+
+        case "emailAddresses":
+          break;
+
+        case "Addresses":
+          break;
+
+        default:
+          break;
+      }
+    } else {
+      print("No employee found with the given name.");
+    }
+  }
+
   void showEmployee(List<EmployeeModelClass> employeeList, String name) {
     var matchingEmployees = employeeList
         .where((e) => e.name.toLowerCase().contains(name.toLowerCase()))
@@ -297,7 +428,7 @@ void main() {
   operations.manualAddEmployee();
 
   print(
-      "Which Operation Do You Want to Perform? \n1.Create Employee (Type : 'create') \n2.Show Employee (Type : 'show') \n3.Show All Employees (Type : 'show all')");
+      "Which Operation Do You Want to Perform? \n1.Create Employee (Type : 'create') \n2.Show Employee (Type : 'show')  \n4.Update Employee (Type : 'update')");
 
   String input = stdin.readLineSync()!;
   switch (input) {
@@ -315,6 +446,10 @@ void main() {
     case "show all":
       operations.showEmployees(operations.employee);
       break;
+
+    case "update":
+      operations.updateEmployee(operations.employee);
+      operations.showEmployees(operations.employee);
 
     default:
       break;
