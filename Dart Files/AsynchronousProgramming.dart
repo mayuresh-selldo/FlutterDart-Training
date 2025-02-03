@@ -1,6 +1,8 @@
+import 'dart:isolate';
+
 Future<void> printOrderMessage() async {
   print('Awaiting user order...');
-  var order = await fetchUserOrder();
+  var order = await Isolate.run(() => fetchUserOrder());
   print('Your order is: $order');
 }
 
