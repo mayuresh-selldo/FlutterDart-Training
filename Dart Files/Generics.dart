@@ -31,7 +31,8 @@ void generics() {
   print(names.runtimeType);
 
   var T = int;
-  print(T.runtimeType);// If we have to check type or some variable we use runtimeType
+  print(T
+      .runtimeType); // If we have to check type or some variable we use runtimeType
 }
 
 void main() {

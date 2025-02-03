@@ -25,5 +25,6 @@ import '../lessons/mixins_extensions/number_parsing.dart';
 void main() {
   double tempFarenheit = 86.34;
   double Celsius = (tempFarenheit - 32) / 1.8;
-  print("${tempFarenheit.toStringAsFixed(1).toIntOrNull()}F = ${Celsius.toStringAsFixed(2)}C");
+  print(
+      "${tempFarenheit.toStringAsFixed(1).toIntOrNull()}F = ${Celsius.toStringAsFixed(2)}C");
 }

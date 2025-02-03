@@ -34,7 +34,6 @@ void forIn() {
 
   candidates.forEach((k, v) => print("Name is $k and Age is $v"));
   candidates1.forEach((k, v) => print("Name is $k and Age is $v"));
-  
 }
 
 void main() {

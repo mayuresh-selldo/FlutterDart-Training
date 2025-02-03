@@ -6,7 +6,7 @@ void main() {
 
   var list1 = [10, 20, 30];
   var set = list1.toSet();
-  
+
   var list2 = [1, ...list1];
   print(list2); // Output : [1,10,20,30]
 

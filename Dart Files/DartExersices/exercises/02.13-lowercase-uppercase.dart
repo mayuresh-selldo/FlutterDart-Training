@@ -21,9 +21,9 @@ void main() {
   print(title.toUpperCase());
   print(title.toLowerCase());
 
-  title = title.split(' ')
+  title = title
+      .split(' ')
       .map((word) => word[0].toUpperCase() + word.substring(1))
       .join(' ');
   print(title);
-
 }

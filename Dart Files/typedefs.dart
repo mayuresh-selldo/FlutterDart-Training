@@ -5,11 +5,15 @@
  */
 
 typedef intList = List<int>;
-  typedef ListMapper<X> = Map<X, List<X>>;
-
+typedef ListMapper<X> = Map<X, List<X>>;
 
 void typeDef() {
-  intList list = [1, 2, 3, 4,];
+  intList list = [
+    1,
+    2,
+    3,
+    4,
+  ];
 
   print(list);
 

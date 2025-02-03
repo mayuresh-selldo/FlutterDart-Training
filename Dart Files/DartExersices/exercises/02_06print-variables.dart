@@ -9,7 +9,6 @@ void read(String? firstName, String lastName, int age, double height) {
   height = double.parse(stdin.readLineSync()!);
 
   printAll(firstName, lastName, age, height);
-
 }
 
 void printAll(String firstName, String lastName, int age, double height) {

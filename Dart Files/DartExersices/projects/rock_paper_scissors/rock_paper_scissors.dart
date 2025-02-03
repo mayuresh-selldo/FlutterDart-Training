@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:math';
 
 enum Move { rock, paper, scissors }
+
 void main() {
   final rng = Random();
   while (true) {
