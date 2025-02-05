@@ -5,11 +5,18 @@ void main() {
   runApp(
     MaterialApp(
       home: Scaffold(
+        backgroundColor: Colors.white70,
+        body: Center(
+          child: Image(
+            image: AssetImage("images/diamond.png"),
+          ),
+        ),
         appBar: AppBar(
-            title: Text("Hello World"),
-            backgroundColor: Colors.deepPurple,
-            centerTitle: true,
-            foregroundColor: Colors.white),
+          title: Text("Hello World"),
+          backgroundColor: Colors.deepPurple,
+          centerTitle: true,
+          foregroundColor: Colors.white,
+        ),
       ),
     ),
   );
