@@ -29,6 +29,7 @@ class MyApp extends StatelessWidget {
                   fontFamily: "Pacifico",
                 ),
               ),
+              Image.asset('images/xyz.webp'),
               Text(
                 "FLUTTER DEVELOPER",
                 style: TextStyle(
