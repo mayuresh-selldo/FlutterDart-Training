@@ -11,6 +11,13 @@ enum Gender {
   female,
 }
 
+double? result;
+
+double calculateBMI(int weight, double height) {
+  double heightInMeters = height / 100;
+  return weight / (heightInMeters * heightInMeters);
+}
+
 class InputPage extends StatefulWidget {
   @override
   _InputPageState createState() => _InputPageState();
@@ -213,6 +220,7 @@ class _InputPageState extends State<InputPage> {
           ),
           GestureDetector(
             onTap: () {
+              result = calculateBMI(weight, height.toDouble());
               Navigator.push(
                 context,
                 MaterialPageRoute(
