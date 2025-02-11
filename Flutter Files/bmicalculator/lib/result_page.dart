@@ -19,21 +19,21 @@ String weightCategory(double bmi) {
 }
 
 class ResultPage extends StatelessWidget {
-  const ResultPage({super.key});
+  final double? result;
+
+  const ResultPage({super.key, this.result});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          leading: GestureDetector(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: Icon(
-              FontAwesomeIcons.arrowLeft,
-              color: Colors.white,
-            ),
-          ),
+          // leading: IconButton(
+          //   onPressed: () {
+          //     Navigator.pop(context);
+          //   },
+          //   icon: Icon(FontAwesomeIcons.arrowLeft),
+          //   color: Colors.white,
+          // ),
           title: Text(
             "Your Result",
             style: TextStyle(

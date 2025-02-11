@@ -225,7 +225,8 @@ class _InputPageState extends State<InputPage> {
                 context,
                 MaterialPageRoute(
                   builder: (context) {
-                    return ResultPage();
+                    return ResultPage(
+                        result: result); // Pass result to ResultPage;
                   },
                 ),
               );
