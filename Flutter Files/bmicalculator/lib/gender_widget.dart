@@ -1,3 +1,4 @@
+import 'package:bmicalculator/constants.dart';
 import 'package:flutter/material.dart';
 
 class GenderWidget extends StatelessWidget {
@@ -24,11 +25,8 @@ class GenderWidget extends StatelessWidget {
           height: 15.0,
         ),
         Text(
-          "${gender.toUpperCase()}",
-          style: TextStyle(
-            fontSize: 18.0,
-            color: Color(0xFF8D8E98),
-          ),
+          gender,
+          style: labelTextStyle,
         ),
       ],
     );
