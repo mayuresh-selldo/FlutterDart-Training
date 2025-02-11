@@ -26,9 +26,7 @@ class BMICalculator extends StatelessWidget {
         floatingActionButtonTheme: FloatingActionButtonThemeData(
           backgroundColor: Colors.blue,
           foregroundColor: Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(50.0),
-          ),
+          shape: CircleBorder(),
         ),
       ),
       darkTheme: ThemeData(
@@ -46,9 +44,7 @@ class BMICalculator extends StatelessWidget {
           color: Colors.white,
         ),
         floatingActionButtonTheme: FloatingActionButtonThemeData(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(50.0),
-          ),
+          shape: CircleBorder(),
         ),
       ),
       themeMode: ThemeMode.system,
