@@ -1,0 +1,1 @@
+ /home/mayuresh/Development\ Practice\ Flutter/Flutter\ Files/bitcoin_ticker/.dart_tool/flutter_build/f05c04ce1978f25e24cec64681ae73d8/native_assets.yaml: 
