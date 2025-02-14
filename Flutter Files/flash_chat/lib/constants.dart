@@ -12,15 +12,6 @@ const kMessageTextFieldDecoration = InputDecoration(
   border: InputBorder.none,
 );
 
-void navigateTo(BuildContext context, Function func) {
-  Navigator.push(
-    context,
-    MaterialPageRoute(
-      builder: (context) => func(),
-    ),
-  );
-}
-
 const kMessageContainerDecoration = BoxDecoration(
   border: Border(
     top: BorderSide(color: Colors.lightBlueAccent, width: 2.0),
