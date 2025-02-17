@@ -14,6 +14,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String email = '';
   String password = '';
   bool showSpinner = false;
+  bool _isButtonDisabled = false;
 
   @override
   Widget build(BuildContext context) {
@@ -115,23 +116,43 @@ class _LoginScreenState extends State<LoginScreen> {
                   elevation: 5.0,
                   child: MaterialButton(
                     onPressed: () async {
-                      setState(() {
-                        showSpinner = true;
-                      });
-                      try {
-                        final currentUser =
-                            await _auth.signInWithEmailAndPassword(
-                                email: email, password: password);
+                      if (_isButtonDisabled) {
+                        return null;
+                      } else {
+                        _isButtonDisabled = true;
                         setState(() {
-                          showSpinner = false;
+                          showSpinner = true;
                         });
-                        if (currentUser != null) {
-                          print("Login Successfull");
+
+                        await _auth
+                            .signInWithEmailAndPassword(
+                                email: email, password: password)
+                            .then((onValue) {
+                          print("Login SuccessFull");
                           Navigator.pushNamed(context, ChatScreen.id);
-                        }
-                      } catch (e) {
-                        print(e);
+                          setState(() {
+                            showSpinner = false;
+                          });
+                        }, onError: (error) {
+                          print(error);
+                        });
+
+                        //   try {
+                        //     final currentUser = await _auth
+                        //         .signInWithEmailAndPassword(
+                        //             email: email, password: password)
+                        //         .whenComplete(() {
+                        //       print("Login Successfull");
+                        //       Navigator.pushNamed(context, ChatScreen.id);
+                        //     });
+                        //     setState(() {
+                        //       showSpinner = false;
+                        //     });
+                        //   } catch (e) {
+                        //     print(e);
+                        //   }
                       }
+                      _isButtonDisabled = false;
                     },
                     minWidth: 200.0,
                     height: 42.0,

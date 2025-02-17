@@ -15,6 +15,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   String email = '';
   String password = '';
   bool showSpinner = false;
+  bool _isButtonDisabled = false;
 
   void registerUser() {}
 
@@ -120,24 +121,41 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   elevation: 5.0,
                   child: MaterialButton(
                     onPressed: () async {
+                      if (_isButtonDisabled) {
+                        return null;
+                      } else {}
                       setState(() {
                         showSpinner = true;
                       });
 
-                      try {
-                        final newUser =
-                            await _auth.createUserWithEmailAndPassword(
-                                email: email, password: password);
+                      await _auth
+                          .createUserWithEmailAndPassword(
+                              email: email, password: password)
+                          .then((onValue) {
+                        print("User Created SuccessFully");
+                        Navigator.pushNamed(context, LoginScreen.id);
                         setState(() {
                           showSpinner = false;
                         });
-                        if (newUser != null) {
-                          print("User Created SuccessFully");
-                          Navigator.pushNamed(context, LoginScreen.id);
-                        }
-                      } catch (e) {
-                        print(e);
-                      }
+                        // id
+                      }, onError: (error) {
+                        print("Erro ${error.toString()}");
+                      });
+
+                      // try {
+                      //   final newUser =
+                      //       await _auth.createUserWithEmailAndPassword(
+                      //           email: email, password: password);
+                      //   // .whenComplete(() {
+                      //   print("User Created SuccessFully");
+                      //   Navigator.pushNamed(context, LoginScreen.id);
+                      //   // });
+                      //   setState(() {
+                      //     showSpinner = false;
+                      //   });
+                      // } on FirebaseAuthException catch (e) {
+                      //   debugPrint("my Error  ${e.message}");
+                      // }
                     },
                     minWidth: 200.0,
                     height: 42.0,

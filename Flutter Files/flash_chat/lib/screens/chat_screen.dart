@@ -39,8 +39,11 @@ class _ChatScreenState extends State<ChatScreen> {
           IconButton(
               icon: Icon(Icons.close),
               onPressed: () {
-                _auth.signOut();
-                Navigator.pop(context);
+                _auth.signOut().whenComplete(() {
+                  // if sucess signout
+                  print("Log out SuccessFull");
+                  Navigator.pop(context);
+                });
               }),
         ],
         title: Text('⚡️Chat'),
