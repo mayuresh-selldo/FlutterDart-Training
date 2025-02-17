@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flash_chat/screens/chat_screen.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -7,6 +9,10 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final _auth = FirebaseAuth.instance;
+  String email = '';
+  String password = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +47,9 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             TextField(
               onChanged: (value) {
-                //Do something with the user input.
+                setState(() {
+                  email = value;
+                });
               },
               style: TextStyle(color: Colors.black),
               decoration: InputDecoration(
@@ -68,7 +76,9 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             TextField(
               onChanged: (value) {
-                //Do something with the user input.
+                setState(() {
+                  password = value;
+                });
               },
               style: TextStyle(color: Colors.black),
               decoration: InputDecoration(
@@ -100,8 +110,19 @@ class _LoginScreenState extends State<LoginScreen> {
                 borderRadius: BorderRadius.all(Radius.circular(30.0)),
                 elevation: 5.0,
                 child: MaterialButton(
-                  onPressed: () {
-                    //Implement login functionality.
+                  onPressed: () async {
+                    try {
+                      final currentUser =
+                          await _auth.signInWithEmailAndPassword(
+                              email: email, password: password);
+
+                      if (currentUser != null) {
+                        print("Login Successfull");
+                        Navigator.pushNamed(context, ChatScreen.id);
+                      }
+                    } catch (e) {
+                      print(e);
+                    }
                   },
                   minWidth: 200.0,
                   height: 42.0,

@@ -1,4 +1,6 @@
+import 'package:flash_chat/screens/login_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class RegistrationScreen extends StatefulWidget {
   static const id = 'registration_screen';
@@ -8,6 +10,12 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
+  final _auth = FirebaseAuth.instance;
+  String email = '';
+  String password = '';
+
+  void registerUser() {}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,9 +49,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               height: 48.0,
             ),
             TextField(
+              style: TextStyle(color: Colors.black),
               onChanged: (value) {
-                //Do something with the user input.
+                setState(() {
+                  email = value;
+                });
               },
+              keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
                 hintText: 'Enter your email',
                 contentPadding:
@@ -65,9 +77,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               height: 8.0,
             ),
             TextField(
+              style: TextStyle(color: Colors.black),
               onChanged: (value) {
-                //Do something with the user input.
+                setState(() {
+                  password = value;
+                });
               },
+              obscureText: true,
               decoration: InputDecoration(
                 hintText: 'Enter your password',
                 contentPadding:
@@ -95,8 +111,18 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 borderRadius: BorderRadius.all(Radius.circular(30.0)),
                 elevation: 5.0,
                 child: MaterialButton(
-                  onPressed: () {
-                    //Implement registration functionality.
+                  onPressed: () async {
+                    try {
+                      final newUser =
+                          await _auth.createUserWithEmailAndPassword(
+                              email: email, password: password);
+                      if (newUser != null) {
+                        print("User Created SuccessFully");
+                        Navigator.pushNamed(context, LoginScreen.id);
+                      }
+                    } catch (e) {
+                      print(e);
+                    }
                   },
                   minWidth: 200.0,
                   height: 42.0,
