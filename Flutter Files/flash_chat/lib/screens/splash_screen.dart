@@ -1,6 +1,9 @@
 import 'package:flash_chat/screens/welcome_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'chat_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   static const id = 'splash_screen';
@@ -15,20 +18,30 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void reDirectToWelcomeScreen() {
     setState(() {
-      Future.delayed(duration, () {
-        if (mounted) {
-          Navigator.pushReplacement<void, void>(
-            context,
-            MaterialPageRoute<void>(
-              builder: (BuildContext context) => WelcomeScreen(),
-            ),
-          );
-        }
-      });
+      if (mounted) {
+        Navigator.pushReplacement<void, void>(
+          context,
+          MaterialPageRoute<void>(
+            builder: (BuildContext context) => WelcomeScreen(),
+          ),
+        );
+      }
     });
   }
 
-  // XYZ
+  void _redirectToChatScreen() {
+    setState(() {
+      if (mounted) {
+        Navigator.pushReplacement<void, void>(
+          context,
+          MaterialPageRoute<void>(
+            builder: (BuildContext context) => ChatScreen(),
+          ),
+        );
+      }
+    });
+  }
+
   PackageInfo _packageInfo = PackageInfo(
       appName: '', packageName: '', version: '', buildNumber: 'buildNumber');
 
@@ -41,40 +54,62 @@ class _SplashScreenState extends State<SplashScreen> {
     }
   }
 
+  Future<bool> _checkIfUserIsLoggedIn() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool? isLoggedIn = prefs.getBool('isLoggedIn');
+    if (isLoggedIn != null && isLoggedIn) {
+      return true;
+    }
+    return false;
+  }
+
+  void redirectIfLoggedOrNot() async {
+    bool isLoggedIn = await _checkIfUserIsLoggedIn();
+    if (isLoggedIn) {
+      _redirectToChatScreen();
+    } else {
+      reDirectToWelcomeScreen();
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     _initPackageInfo();
-    reDirectToWelcomeScreen();
+    _initializeApp();
+  }
+
+  Future<void> _initializeApp() async {
+    await Future.delayed(duration);
+    redirectIfLoggedOrNot();
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: Stack(
-          children: [
-            Center(
-              child: Container(
-                child: Image.asset('images/logo.png'),
-                height: 180.0,
-              ),
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Stack(
+        children: [
+          Center(
+            child: Container(
+              child: Image.asset('images/logo.png'),
+              height: 180.0,
             ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 10.0),
-                child: Text(
-                  "V${_packageInfo.version}+${_packageInfo.buildNumber}",
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    color: Colors.black54,
-                  ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 10.0),
+              child: Text(
+                "V${_packageInfo.version}+${_packageInfo.buildNumber}",
+                style: TextStyle(
+                  fontSize: 16.0,
+                  color: Colors.black54,
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

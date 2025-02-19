@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flash_chat/screens/chat_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   static const id = 'login_screen';
@@ -15,6 +16,16 @@ class _LoginScreenState extends State<LoginScreen> {
   String password = '';
   bool showSpinner = false;
   bool _isButtonDisabled = false;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  Future<void> _saveLoginState(bool isLoggedIn) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('isLoggedIn', isLoggedIn);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -124,35 +135,34 @@ class _LoginScreenState extends State<LoginScreen> {
                           showSpinner = true;
                         });
 
-                        await _auth
-                            .signInWithEmailAndPassword(
-                                email: email, password: password)
-                            .then((onValue) {
-                          print("Login SuccessFull");
-                          Navigator.pushNamed(context, ChatScreen.id);
+                        try {
+                          final UserCredential userCredential =
+                              await _auth.signInWithEmailAndPassword(
+                                  email: email, password: password);
+                          if (userCredential.user != null) {
+                            await _saveLoginState(true);
+                            setState(() {
+                              if (mounted) {
+                                Navigator.pushReplacement<void, void>(
+                                  context,
+                                  MaterialPageRoute<void>(
+                                    builder: (BuildContext context) =>
+                                        ChatScreen(),
+                                  ),
+                                );
+                              }
+                            });
+                          }
+                        } catch (e) {
+                          print(e);
+                        } finally {
                           setState(() {
                             showSpinner = false;
                           });
-                        }, onError: (error) {
-                          print(error);
-                        });
+                        }
 
-                        //   try {
-                        //     final currentUser = await _auth
-                        //         .signInWithEmailAndPassword(
-                        //             email: email, password: password)
-                        //         .whenComplete(() {
-                        //       print("Login Successfull");
-                        //       Navigator.pushNamed(context, ChatScreen.id);
-                        //     });
-                        //     setState(() {
-                        //       showSpinner = false;
-                        //     });
-                        //   } catch (e) {
-                        //     print(e);
-                        //   }
+                        _isButtonDisabled = false;
                       }
-                      _isButtonDisabled = false;
                     },
                     minWidth: 200.0,
                     height: 42.0,

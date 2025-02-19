@@ -1,7 +1,10 @@
+import 'package:flash_chat/screens/login_screen.dart';
+import 'package:flash_chat/screens/welcome_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flash_chat/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final _firestore = FirebaseFirestore.instance;
 var loggedInUser;
@@ -36,6 +39,12 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
+  Future<void> _removeLoginState(bool isLoggedIn) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('isLoggedIn', isLoggedIn);
+    prefs.remove('isLoggedIn');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,7 +56,17 @@ class _ChatScreenState extends State<ChatScreen> {
               icon: Icon(Icons.close),
               onPressed: () {
                 _auth.signOut();
-                Navigator.pop(context);
+                _removeLoginState(false);
+                setState(() {
+                  if (mounted) {
+                    Navigator.pushReplacement<void, void>(
+                      context,
+                      MaterialPageRoute<void>(
+                        builder: (BuildContext context) => WelcomeScreen(),
+                      ),
+                    );
+                  }
+                });
               }),
         ],
         title: Text('⚡️Chat'),
