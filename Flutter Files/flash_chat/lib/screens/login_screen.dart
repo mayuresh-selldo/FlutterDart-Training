@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flash_chat/screens/chat_screen.dart';
+import 'package:flash_chat/screens/welcome_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -143,6 +144,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             await _saveLoginState(true);
                             setState(() {
                               if (mounted) {
+                                Navigator.pop(context, WelcomeScreen.id);
                                 Navigator.pushReplacement<void, void>(
                                   context,
                                   MaterialPageRoute<void>(
