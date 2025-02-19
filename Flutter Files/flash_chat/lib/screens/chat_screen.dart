@@ -57,16 +57,7 @@ class _ChatScreenState extends State<ChatScreen> {
               onPressed: () {
                 _auth.signOut();
                 _removeLoginState(false);
-                setState(() {
-                  if (mounted) {
-                    Navigator.pushReplacement<void, void>(
-                      context,
-                      MaterialPageRoute<void>(
-                        builder: (BuildContext context) => WelcomeScreen(),
-                      ),
-                    );
-                  }
-                });
+                reDirectTo(context, () => WelcomeScreen(), state: this);
               }),
         ],
         title: Text('⚡️Chat'),

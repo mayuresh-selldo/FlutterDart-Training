@@ -1,3 +1,4 @@
+import 'package:flash_chat/constants.dart';
 import 'package:flash_chat/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -133,29 +134,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               email: email, password: password)
                           .then((onValue) {
                         print("User Created SuccessFully");
-                        Navigator.pushNamed(context, LoginScreen.id);
+                        reDirectTo(context, () => LoginScreen(), state: this);
                         setState(() {
                           showSpinner = false;
                         });
                         // id
                       }, onError: (error) {
-                        print("Erro ${error.toString()}");
+                        debugPrint("Error :  ${error.toString()}");
                       });
-
-                      // try {
-                      //   final newUser =
-                      //       await _auth.createUserWithEmailAndPassword(
-                      //           email: email, password: password);
-                      //   // .whenComplete(() {
-                      //   print("User Created SuccessFully");
-                      //   Navigator.pushNamed(context, LoginScreen.id);
-                      //   // });
-                      //   setState(() {
-                      //     showSpinner = false;
-                      //   });
-                      // } on FirebaseAuthException catch (e) {
-                      //   debugPrint("my Error  ${e.message}");
-                      // }
                     },
                     minWidth: 200.0,
                     height: 42.0,

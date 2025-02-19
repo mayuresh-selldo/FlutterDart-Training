@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flash_chat/constants.dart';
 import 'package:flash_chat/screens/chat_screen.dart';
 import 'package:flash_chat/screens/welcome_screen.dart';
 import 'package:flutter/material.dart';
@@ -145,13 +146,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             setState(() {
                               if (mounted) {
                                 Navigator.pop(context, WelcomeScreen.id);
-                                Navigator.pushReplacement<void, void>(
-                                  context,
-                                  MaterialPageRoute<void>(
-                                    builder: (BuildContext context) =>
-                                        ChatScreen(),
-                                  ),
-                                );
+                                reDirectTo(context, () => ChatScreen(),
+                                    state: this);
                               }
                             });
                           }

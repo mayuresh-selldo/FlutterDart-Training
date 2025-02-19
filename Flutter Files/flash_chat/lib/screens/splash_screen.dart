@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../constants.dart';
 import 'chat_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -15,19 +16,6 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   Duration duration = Duration(seconds: 3);
-
-  void reDirectTo(BuildContext context, Widget Function() screenBuilder) {
-    setState(() {
-      if (mounted) {
-        Navigator.pushReplacement<void, void>(
-          context,
-          MaterialPageRoute<void>(
-            builder: (BuildContext context) => screenBuilder(),
-          ),
-        );
-      }
-    });
-  }
 
   PackageInfo _packageInfo = PackageInfo(
       appName: '', packageName: '', version: '', buildNumber: 'buildNumber');
@@ -53,9 +41,9 @@ class _SplashScreenState extends State<SplashScreen> {
   void redirectIfLoggedOrNot() async {
     bool isLoggedIn = await _checkIfUserIsLoggedIn();
     if (isLoggedIn) {
-      reDirectTo(context, () => ChatScreen());
+      reDirectTo(context, () => ChatScreen(), state: this);
     } else {
-      reDirectTo(context, () => WelcomeScreen());
+      reDirectTo(context, () => WelcomeScreen(), state: this);
     }
   }
 
