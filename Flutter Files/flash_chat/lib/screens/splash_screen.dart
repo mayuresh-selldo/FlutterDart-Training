@@ -16,26 +16,13 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   Duration duration = Duration(seconds: 3);
 
-  void reDirectToWelcomeScreen() {
+  void reDirectTo(BuildContext context, Widget Function() screenBuilder) {
     setState(() {
       if (mounted) {
         Navigator.pushReplacement<void, void>(
           context,
           MaterialPageRoute<void>(
-            builder: (BuildContext context) => WelcomeScreen(),
-          ),
-        );
-      }
-    });
-  }
-
-  void _redirectToChatScreen() {
-    setState(() {
-      if (mounted) {
-        Navigator.pushReplacement<void, void>(
-          context,
-          MaterialPageRoute<void>(
-            builder: (BuildContext context) => ChatScreen(),
+            builder: (BuildContext context) => screenBuilder(),
           ),
         );
       }
@@ -66,9 +53,9 @@ class _SplashScreenState extends State<SplashScreen> {
   void redirectIfLoggedOrNot() async {
     bool isLoggedIn = await _checkIfUserIsLoggedIn();
     if (isLoggedIn) {
-      _redirectToChatScreen();
+      reDirectTo(context, () => ChatScreen());
     } else {
-      reDirectToWelcomeScreen();
+      reDirectTo(context, () => WelcomeScreen());
     }
   }
 
