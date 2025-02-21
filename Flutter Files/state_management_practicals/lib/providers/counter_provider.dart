@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-class CounterProvider extends ChangeNotifier {
+class CounterProvider with ChangeNotifier {
   int value;
 
   CounterProvider({
