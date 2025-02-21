@@ -102,10 +102,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         setState(() {
                           showSpinner = false;
                         });
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
                             duration: Duration(seconds: 2),
                             content: Center(
-                                child: Text("User Created Successfully"))));
+                              child: Text("User Created Successfully"),
+                            ),
+                          ),
+                        );
                         await Future.delayed(Duration(seconds: 2));
                         reDirectTo(context, () => LoginScreen(), state: this);
                         // id
