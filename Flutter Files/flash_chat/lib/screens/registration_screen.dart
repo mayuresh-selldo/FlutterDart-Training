@@ -98,12 +98,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       await _auth
                           .createUserWithEmailAndPassword(
                               email: email, password: password)
-                          .then((onValue) {
-                        print("User Created SuccessFully");
-                        reDirectTo(context, () => LoginScreen(), state: this);
+                          .then((onValue) async {
                         setState(() {
                           showSpinner = false;
                         });
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            duration: Duration(seconds: 2),
+                            content: Center(
+                                child: Text("User Created Successfully"))));
+                        await Future.delayed(Duration(seconds: 2));
+                        reDirectTo(context, () => LoginScreen(), state: this);
                         // id
                       }, onError: (error) {
                         debugPrint("Error :  ${error.toString()}");
