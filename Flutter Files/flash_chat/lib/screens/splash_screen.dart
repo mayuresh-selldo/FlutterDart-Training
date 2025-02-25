@@ -40,11 +40,9 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void redirectIfLoggedOrNot() async {
     bool isLoggedIn = await _checkIfUserIsLoggedIn();
-    if (isLoggedIn) {
-      reDirectTo(context, () => ChatScreen(), state: this);
-    } else {
-      reDirectTo(context, () => WelcomeScreen(), state: this);
-    }
+    isLoggedIn
+        ? reDirectTo(context, () => ChatScreen(), state: this)
+        : reDirectTo(context, () => WelcomeScreen(), state: this);
   }
 
   @override
