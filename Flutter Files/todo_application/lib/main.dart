@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:todo_application/todo_list.dart';
+import 'package:todo_application/list_page.dart';
 
 void main() {
   runApp(
@@ -14,6 +14,6 @@ class ToDoApplication extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TodoList();
+    return ListPage();
   }
 }

@@ -1,17 +1,17 @@
-// todo_list.dart
+//list.dart
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'add_list.dart';
 import 'models/todo_model.dart';
 
-class TodoList extends StatefulWidget {
-  const TodoList({super.key});
+class ListPage extends StatefulWidget {
+  const ListPage({super.key});
 
   @override
-  State<TodoList> createState() => _TodoListState();
+  State<ListPage> createState() => _ListPageState();
 }
 
-class _TodoListState extends State<TodoList> {
+class _ListPageState extends State<ListPage> {
   final List<Todo> _todos = [];
 
   @override
@@ -57,28 +57,50 @@ class _TodoListState extends State<TodoList> {
                     margin:
                         const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     child: ListTile(
-                      leading: Checkbox(
-                        value: todo.completed,
-                        onChanged: (bool? value) {
-                          setState(() {
-                            todo.completed = value ?? false;
-                          });
-                        },
-                      ),
-                      title: Text(
-                        todo.title,
-                        style: TextStyle(
-                          decoration: todo.completed
-                              ? TextDecoration.lineThrough
-                              : null,
+                        leading: Checkbox(
+                          value: todo.completed,
+                          onChanged: (bool? value) {
+                            setState(() {
+                              todo.completed = value ?? false;
+                            });
+                          },
                         ),
-                      ),
-                      subtitle: todo.date != null || todo.time != null
-                          ? Text('${formattedDate} ${todo.time ?? ""}')
-                          : null,
-                      trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-                      onTap: () {},
-                    ),
+                        title: Text(
+                          todo.title,
+                          style: TextStyle(
+                            decoration: todo.completed
+                                ? TextDecoration.lineThrough
+                                : null,
+                          ),
+                        ),
+                        subtitle: todo.date != null || todo.time != null
+                            ? Text('${formattedDate} ${todo.time ?? ""}')
+                            : null,
+                        trailing: SizedBox(
+                          width: 100, // Give it a constrained width
+                          child: Row(
+                            mainAxisSize: MainAxisSize
+                                .min, // Important: make the row take minimum space
+                            children: [
+                              IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _todos.removeAt(index);
+                                  });
+                                },
+                                icon: Icon(Icons.close),
+                                iconSize: 20,
+                                padding: EdgeInsets.zero,
+                              ),
+                              IconButton(
+                                onPressed: () {},
+                                icon: Icon(Icons.arrow_forward_ios),
+                                iconSize: 20, // Make icons smaller
+                                padding: EdgeInsets.zero, // Remove padding
+                              ),
+                            ],
+                          ),
+                        )),
                   ),
                 );
               },
