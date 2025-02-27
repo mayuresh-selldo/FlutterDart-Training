@@ -1,4 +1,3 @@
-//list.dart
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'add_list.dart';
@@ -53,10 +52,28 @@ class _ListPageState extends State<ListPage> {
                       SnackBar(content: Text('${todo.title} removed')),
                     );
                   },
-                  child: Card(
-                    margin:
-                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    child: ListTile(
+                  child: GestureDetector(
+                    onTap: () {
+                      showModalBottomSheet(
+                        constraints: BoxConstraints(minWidth: double.infinity),
+                        context: context,
+                        builder: (context) {
+                          var elementAt = _todos.elementAt(index);
+                          return Column(
+                            children: [
+                              Text("Title : ${elementAt.title}"),
+                              Text("Description : ${elementAt.description}"),
+                              Text(
+                                  "Status : ${elementAt.completed ? "Completed" : "Not yet Completed"}"),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                    child: Card(
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 8),
+                      child: ListTile(
                         leading: Checkbox(
                           value: todo.completed,
                           onChanged: (bool? value) {
@@ -74,38 +91,76 @@ class _ListPageState extends State<ListPage> {
                           ),
                         ),
                         subtitle: todo.date != null || todo.time != null
-                            ? Text('${formattedDate} ${todo.time ?? ""}')
+                            ? Text('$formattedDate ${todo.time ?? ""}')
                             : null,
                         trailing: SizedBox(
-                          width: 100, // Give it a constrained width
+                          width: 80,
                           child: Row(
-                            mainAxisSize: MainAxisSize
-                                .min, // Important: make the row take minimum space
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    _todos.removeAt(index);
-                                  });
+                              GestureDetector(
+                                onTap: () {
+                                  setState(() {});
                                 },
-                                icon: Icon(Icons.close),
-                                iconSize: 20,
-                                padding: EdgeInsets.zero,
+                                child: Icon(
+                                  Icons.edit,
+                                  size: 20,
+                                ),
                               ),
-                              IconButton(
-                                onPressed: () {},
-                                icon: Icon(Icons.arrow_forward_ios),
-                                iconSize: 20, // Make icons smaller
-                                padding: EdgeInsets.zero, // Remove padding
+                              SizedBox(
+                                width: 18,
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        title: Text("Confirm Deletion"),
+                                        content: Text(
+                                            "Are you sure you want to delete this task?"),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: Text("Cancel"),
+                                          ),
+                                          FilledButton(
+                                            onPressed: () {
+                                              setState(() {
+                                                _todos.removeAt(index);
+                                              });
+                                              Navigator.of(context).pop();
+                                            },
+                                            style: FilledButton.styleFrom(
+                                              backgroundColor: Colors.red,
+                                              foregroundColor: Colors.white,
+                                            ),
+                                            child: Text("Delete"),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                },
+                                child: Icon(
+                                  Icons.close,
+                                  size: 20,
+                                  color: Colors.red,
+                                ),
                               ),
                             ],
                           ),
-                        )),
+                        ),
+                      ),
+                    ),
                   ),
                 );
               },
             ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
           final result = await Navigator.push(
             context,
@@ -126,8 +181,11 @@ class _ListPageState extends State<ListPage> {
             });
           }
         },
+        label: Text("Add New List"),
         tooltip: "Add a ToDo",
-        child: const Icon(Icons.add),
+        icon: const Icon(Icons.add),
+        backgroundColor: Color(0xFF00008B),
+        foregroundColor: Colors.white,
       ),
     );
   }
