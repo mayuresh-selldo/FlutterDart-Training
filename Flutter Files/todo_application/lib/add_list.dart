@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart'; // Make sure to add intl package to your pubspec.yaml
+import 'package:intl/intl.dart';
 
 class AddList extends StatefulWidget {
   const AddList({super.key});
@@ -53,16 +53,13 @@ class _AddListState extends State<AddList> {
   }
 
   void _saveTodo() {
-    // Create a Todo object with the collected data
     if (titleController.text.isEmpty) {
-      // Show error if title is empty
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Please enter a title')),
       );
       return;
     }
 
-    // Example Todo model that you would create
     final todo = {
       'title': titleController.text,
       'description': descriptionController.text,
@@ -73,7 +70,6 @@ class _AddListState extends State<AddList> {
       'completed': false,
     };
 
-    // Pass back the new todo to the previous screen
     Navigator.pop(context, todo);
   }
 
@@ -87,62 +83,62 @@ class _AddListState extends State<AddList> {
           onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            TextField(
-              controller: titleController,
-              decoration: const InputDecoration(
-                labelText: 'Title',
-                border: OutlineInputBorder(),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              TextField(
+                controller: titleController,
+                decoration: const InputDecoration(
+                  labelText: 'Title',
+                  border: OutlineInputBorder(),
+                ),
               ),
-            ),
-            const SizedBox(height: 16),
-            TextField(
-              controller: descriptionController,
-              decoration: const InputDecoration(
-                labelText: 'Description (optional)',
-                border: OutlineInputBorder(),
+              const SizedBox(height: 16),
+              TextField(
+                controller: descriptionController,
+                decoration: const InputDecoration(
+                  labelText: 'Description (optional)',
+                  border: OutlineInputBorder(),
+                ),
+                maxLines: 3,
               ),
-              maxLines: 3,
-            ),
-            const SizedBox(height: 24),
+              const SizedBox(height: 24),
 
-            // Date picker
-            ListTile(
-              title: Text('Date: $formattedDate'),
-              trailing: const Icon(Icons.calendar_today),
-              shape: RoundedRectangleBorder(
-                side: const BorderSide(color: Colors.grey),
-                borderRadius: BorderRadius.circular(8),
+              // Date picker
+              ListTile(
+                title: Text('Date: $formattedDate'),
+                trailing: const Icon(Icons.calendar_today),
+                shape: RoundedRectangleBorder(
+                  side: const BorderSide(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                onTap: () => _selectDate(context),
               ),
-              onTap: () => _selectDate(context),
-            ),
-            const SizedBox(height: 16),
+              const SizedBox(height: 16),
 
-            // Time picker
-            ListTile(
-              title: Text('Time: $formattedTime'),
-              trailing: const Icon(Icons.access_time),
-              shape: RoundedRectangleBorder(
-                side: const BorderSide(color: Colors.grey),
-                borderRadius: BorderRadius.circular(8),
+              ListTile(
+                title: Text('Time: $formattedTime'),
+                trailing: const Icon(Icons.access_time),
+                shape: RoundedRectangleBorder(
+                  side: const BorderSide(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                onTap: () => _selectTime(context),
               ),
-              onTap: () => _selectTime(context),
-            ),
 
-            const Spacer(),
-            // Save button
-            ElevatedButton(
-              onPressed: _saveTodo,
-              style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 16),
+              const SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: _saveTodo,
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                ),
+                child: const Text('SAVE TODO', style: TextStyle(fontSize: 16)),
               ),
-              child: const Text('SAVE TODO', style: TextStyle(fontSize: 16)),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

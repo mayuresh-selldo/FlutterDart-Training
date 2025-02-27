@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'add_list.dart';
 import 'models/todo_model.dart';
+import 'package:intl/intl.dart';
 
 class ListPage extends StatefulWidget {
   const ListPage({super.key});
@@ -12,6 +12,154 @@ class ListPage extends StatefulWidget {
 
 class _ListPageState extends State<ListPage> {
   final List<Todo> _todos = [];
+  final titleController = TextEditingController();
+  final descriptionController = TextEditingController();
+  DateTime? selectedDate;
+  TimeOfDay? selectedTime;
+
+  void _editTodo(int index) {
+    if (titleController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please enter a title')),
+      );
+      return;
+    }
+
+    setState(() {
+      _todos[index] = Todo(
+        title: titleController.text,
+        description: descriptionController.text,
+        date: selectedDate,
+        time: selectedTime != null
+            ? '${selectedTime!.hour}:${selectedTime!.minute}'
+            : null,
+        completed: _todos[index].completed,
+      );
+    });
+
+    titleController.clear();
+    descriptionController.clear();
+    selectedDate = null;
+    selectedTime = null;
+  }
+
+  void _showEditTodoBottomSheet(int index) {
+    titleController.text = _todos[index].title;
+    descriptionController.text = _todos[index].description;
+    selectedDate = _todos[index].date;
+    selectedTime = _todos[index].time != null
+        ? TimeOfDay(
+            hour: int.parse(_todos[index].time!.split(':')[0]),
+            minute: int.parse(_todos[index].time!.split(':')[1]),
+          )
+        : null;
+
+    showModalBottomSheet(
+      constraints: const BoxConstraints(minWidth: double.infinity),
+      isScrollControlled: true,
+      context: context,
+      builder: (context) {
+        return SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom,
+                left: 16,
+                right: 16,
+                top: 16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Edit Todo',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 16),
+                TextField(
+                  controller: titleController,
+                  decoration: const InputDecoration(
+                    labelText: 'Title',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                TextField(
+                  controller: descriptionController,
+                  decoration: const InputDecoration(
+                    labelText: 'Description',
+                    border: OutlineInputBorder(),
+                  ),
+                  maxLines: 3,
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  children: [
+                    Expanded(
+                      child: ElevatedButton.icon(
+                        onPressed: () async {
+                          final DateTime? picked = await showDatePicker(
+                            context: context,
+                            initialDate: selectedDate ?? DateTime.now(),
+                            firstDate: DateTime.now(),
+                            lastDate: DateTime(2101),
+                          );
+                          if (picked != null) {
+                            setState(() {
+                              selectedDate = picked;
+                            });
+                          }
+                        },
+                        icon: const Icon(Icons.calendar_today),
+                        label: Text(
+                          selectedDate != null
+                              ? DateFormat('MMM dd, yyyy').format(selectedDate!)
+                              : 'Select Date',
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: ElevatedButton.icon(
+                        onPressed: () async {
+                          final TimeOfDay? picked = await showTimePicker(
+                            context: context,
+                            initialTime: selectedTime ?? TimeOfDay.now(),
+                          );
+                          if (picked != null) {
+                            setState(() {
+                              selectedTime = picked;
+                            });
+                          }
+                        },
+                        icon: const Icon(Icons.access_time),
+                        label: Text(
+                          selectedTime != null
+                              ? selectedTime!.format(context)
+                              : 'Select Time',
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 24),
+                SizedBox(
+                  width: double.infinity,
+                  child: FilledButton(
+                    onPressed: () {
+                      _editTodo(index);
+                      Navigator.pop(context);
+                    },
+                    child: const Text('Update Todo'),
+                  ),
+                ),
+                const SizedBox(height: 16),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,16 +204,135 @@ class _ListPageState extends State<ListPage> {
                     onTap: () {
                       showModalBottomSheet(
                         constraints: BoxConstraints(minWidth: double.infinity),
+                        isScrollControlled: false,
                         context: context,
                         builder: (context) {
                           var elementAt = _todos.elementAt(index);
-                          return Column(
-                            children: [
-                              Text("Title : ${elementAt.title}"),
-                              Text("Description : ${elementAt.description}"),
-                              Text(
-                                  "Status : ${elementAt.completed ? "Completed" : "Not yet Completed"}"),
-                            ],
+                          return Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: SizedBox(
+                              height: 400,
+                              child: SingleChildScrollView(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Title",
+                                      style: TextStyle(
+                                          fontSize: 22,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.blueAccent),
+                                    ),
+                                    Text(
+                                      elementAt.title,
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    const SizedBox(height: 16),
+                                    Text(
+                                      "Description",
+                                      style: TextStyle(
+                                          fontSize: 22,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.blueAccent),
+                                    ),
+                                    SingleChildScrollView(
+                                      child: Text(
+                                        elementAt.description,
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            color: Colors.grey[700]),
+                                        maxLines: null,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 16),
+                                    Text(
+                                      "Status",
+                                      style: TextStyle(
+                                          fontSize: 22,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.blueAccent),
+                                    ),
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 8, horizontal: 16),
+                                      decoration: BoxDecoration(
+                                        color: elementAt.completed
+                                            ? Colors.green[100]
+                                            : Colors.red[100],
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      child: Text(
+                                        elementAt.completed
+                                            ? "Completed"
+                                            : "Not yet Completed",
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600,
+                                          color: elementAt.completed
+                                              ? Colors.green
+                                              : Colors.red,
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 16),
+                                    if (elementAt.date != null)
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Date",
+                                            style: TextStyle(
+                                                fontSize: 22,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.blueAccent),
+                                          ),
+                                          Text(
+                                            DateFormat('MMM dd, yyyy')
+                                                .format(elementAt.date!),
+                                            style: TextStyle(fontSize: 16),
+                                          ),
+                                          const SizedBox(height: 16),
+                                        ],
+                                      ),
+                                    if (elementAt.time != null)
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Time",
+                                            style: TextStyle(
+                                                fontSize: 22,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.blueAccent),
+                                          ),
+                                          Text(
+                                            elementAt.time!,
+                                            style: TextStyle(fontSize: 16),
+                                          ),
+                                          const SizedBox(height: 16),
+                                        ],
+                                      ),
+                                    SizedBox(
+                                      width: double.infinity,
+                                      child: FilledButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        style: FilledButton.styleFrom(
+                                          backgroundColor: Colors.blueAccent,
+                                          foregroundColor: Colors.white,
+                                        ),
+                                        child: const Text('Close'),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
                           );
                         },
                       );
@@ -101,7 +368,7 @@ class _ListPageState extends State<ListPage> {
                             children: [
                               GestureDetector(
                                 onTap: () {
-                                  setState(() {});
+                                  _showEditTodoBottomSheet(index);
                                 },
                                 child: Icon(
                                   Icons.edit,
