@@ -1,5 +1,5 @@
-// todo_model.dart
 class Todo {
+  final int? id;
   final String title;
   final String description;
   final DateTime? date;
@@ -7,6 +7,7 @@ class Todo {
   bool completed;
 
   Todo({
+    this.id,
     required this.title,
     this.description = '',
     this.date,
@@ -14,25 +15,25 @@ class Todo {
     this.completed = false,
   });
 
-  Map<String, dynamic> toMap() {
-    return {
-      'title': title,
-      'description': description,
-      'date': date?.millisecondsSinceEpoch,
-      'time': time,
-      'completed': completed,
-    };
-  }
-
   factory Todo.fromMap(Map<String, dynamic> map) {
     return Todo(
+      id: map['id'],
       title: map['title'],
       description: map['description'] ?? '',
-      date: map['date'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(map['date'])
-          : null,
+      date: map['date'] != null ? DateTime.parse(map['date']) : null,
       time: map['time'],
-      completed: map['completed'] ?? false,
+      completed: map['status'] == 1,
     );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'title': title,
+      'description': description,
+      'date': date?.toIso8601String(),
+      'time': time,
+      'status': completed ? 1 : 0,
+    };
   }
 }

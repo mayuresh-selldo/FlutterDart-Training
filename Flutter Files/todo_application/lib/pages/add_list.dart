@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:todo_application/services/database_service.dart';
 
 class AddList extends StatefulWidget {
   const AddList({super.key});
@@ -13,6 +14,7 @@ class _AddListState extends State<AddList> {
   final descriptionController = TextEditingController();
   DateTime? selectedDate;
   TimeOfDay? selectedTime;
+  final DatabaseService _databaseService = DatabaseService.instance;
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -52,26 +54,26 @@ class _AddListState extends State<AddList> {
         : selectedTime!.format(context);
   }
 
-  void _saveTodo() {
-    if (titleController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter a title')),
-      );
-      return;
-    }
-
-    final todo = {
-      'title': titleController.text,
-      'description': descriptionController.text,
-      'date': selectedDate,
-      'time': selectedTime != null
-          ? '${selectedTime!.hour}:${selectedTime!.minute}'
-          : null,
-      'completed': false,
-    };
-
-    Navigator.pop(context, todo);
-  }
+  // void _saveTodo() {
+  //   if (titleController.text.isEmpty) {
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       const SnackBar(content: Text('Please enter a title')),
+  //     );
+  //     return;
+  //   }
+  //
+  //   final todo = {
+  //     'title': titleController.text,
+  //     'description': descriptionController.text,
+  //     'date': selectedDate,
+  //     'time': selectedTime != null
+  //         ? '${selectedTime!.hour}:${selectedTime!.minute}'
+  //         : null,
+  //     'completed': false,
+  //   };
+  //
+  //   Navigator.pop(context, todo);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -131,7 +133,16 @@ class _AddListState extends State<AddList> {
 
               const SizedBox(height: 16),
               ElevatedButton(
-                onPressed: _saveTodo,
+                onPressed: () {
+                  _databaseService.addTask(
+                    titleController.text,
+                    descriptionController.text,
+                    selectedDate,
+                    selectedTime,
+                    0,
+                  );
+                  Navigator.pop(context);
+                },
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 16),
                 ),
