@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pre_project_practice/pages/login_page.dart';
+import 'package:pre_project_practice/pages/signup_page.dart';
 
 class LandingPage extends StatefulWidget {
   const LandingPage({super.key});
@@ -30,9 +31,7 @@ class _LandingPageState extends State<LandingPage> {
           body: TabBarView(
             children: [
               LoginPage(),
-              Center(
-                child: Text("Sign Up Page"),
-              ),
+              SignupPage(),
             ],
           ),
         ),
