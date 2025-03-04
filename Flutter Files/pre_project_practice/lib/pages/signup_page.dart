@@ -147,6 +147,8 @@ class _SignupPageState extends State<SignupPage> {
                     const SnackBar(content: Text('Signup Successful')),
                   );
                 }
+                Future.delayed(Duration(seconds: 1));
+                Navigator.of(context).pop();
               },
               child: const Text('Submit'),
             ),
